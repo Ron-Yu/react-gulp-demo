@@ -2,7 +2,6 @@
 var gulp = require('gulp');
 var config = require('./gulp_config');
 var $ = require('gulp-load-plugins')({lazy: true});
-var eslint = require('gulp-eslint');
 
 // browserify related modules
 var browserify = require('browserify');
@@ -19,6 +18,7 @@ gulp.task('scriptLint', function(){
   log('ESlint and JSCS examination task');
   return gulp
     .src(config.src.js)
+    .pipe($.cached('linting'))
     .pipe($.plumber())
     .pipe($.eslint())
     .pipe($.eslint.format())
