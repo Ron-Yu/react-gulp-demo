@@ -1,0 +1,9 @@
+{
+    "preset": "airbnb",
+    "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
+    "disallowTrailingWhitespace": "ignoreEmptyLines",
+    "requireCapitalizedConstructors": {
+      "allExcept": ["scrollReveal"]
+    }
+
+}
