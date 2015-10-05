@@ -7,4 +7,4 @@ const timesTwo = numbers.map((number) => number * 2);
 //  wrong example
 // var x=2
 
-export { uiui };
+module.exports = { uiui, numbers, timesTwo };

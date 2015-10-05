@@ -1,18 +1,22 @@
+//  gulp core modules
 var gulp = require('gulp');
 var config = require('./gulp_config');
 var $ = require('gulp-load-plugins')({lazy: true});
 var eslint = require('gulp-eslint');
 
+// browserify related modules
 var browserify = require('browserify');
 var babelify = require('babelify');
 var reactify = require('reactify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
+//  browser-sync module
 var browserSync = require('browser-sync').create();
 
-// Sctipt Task
+// sctipt task
 gulp.task('scriptLint', function(){
+  log('ESlint and JSCS examination task');
   return gulp
     .src(config.src.js)
     .pipe($.plumber())
@@ -20,12 +24,16 @@ gulp.task('scriptLint', function(){
     .pipe($.eslint.format())
     .pipe($.jscs())
     .pipe($.jscsStylish())
-    .pipe($.notify("Scripts under ESlint and JSCS examination"));
+    .pipe($.using({
+      prefix: 'scriptLint',
+      color: 'yellow'
+    }));
 });
 
 gulp.task('scriptsBundle',['scriptLint'] ,function(){
+  log('browserify js bundling task');
   browserify({
-        entries: ['./src/js/collection.js'],
+        entries: [config.src.collectionJs],
         transform: [babelify, reactify],
         extension: ['jsx', 'js'],
         debug: true
@@ -36,13 +44,21 @@ gulp.task('scriptsBundle',['scriptLint'] ,function(){
     .pipe(buffer())
     .pipe($.sourcemaps.init({loadMaps: true}))
     .pipe($.sourcemaps.write('./maps'))
+    .pipe($.using({
+      prefix: 'scriptsBundle',
+      color: 'yellow'
+    }))
     .pipe(gulp.dest(config.build.js))
     .pipe(browserSync.stream());
 });
 
 gulp.task('js-watch', ['scriptsBundle'], browserSync.reload);
 
+//  browser sync task
 gulp.task('serve',['scriptsBundle'] ,function() {
+
+    log('browser-sync starts');
+
     browserSync.init({
         server: {
             baseDir: './build'
@@ -53,3 +69,17 @@ gulp.task('serve',['scriptsBundle'] ,function() {
 });
 
 gulp.task('default', ['serve']);
+
+///////////////////////////////
+function log(msg) {
+	if (typeof(msg) === 'object') {
+		for (var item in msg) {
+			if (msg.hasOwnProperty(item)) {
+				$.util.log($.util.colors.bgYellow.white(msg[item]));
+			}
+		}
+	}
+	else {
+		$.util.log($.util.colors.underline.bold.bgYellow(msg));
+	}
+}

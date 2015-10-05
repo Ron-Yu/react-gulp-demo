@@ -19869,15 +19869,36 @@ module.exports = warning;
 module.exports = require('./lib/React');
 
 },{"./lib/React":29}],157:[function(require,module,exports){
+//  correct example
+"use strict";
+
+var uiui = 3;
+
+var numbers = [1, 2, 3, 4, 5];
+var timesTwo = numbers.map(function (number) {
+  return number * 2;
+});
+
+//  wrong example
+// var x=2
+
+module.exports = { uiui: uiui, numbers: numbers, timesTwo: timesTwo };
+
+
+},{}],158:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var Home = require('./components/homePage');
 
+var basic = require('./basic');
+
 React.render(React.createElement(Home, null), document.getElementById('example'));
 
+console.log(basic.uiui);
 
-},{"./components/homePage":158,"react":156}],158:[function(require,module,exports){
+
+},{"./basic":157,"./components/homePage":159,"react":156}],159:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -19897,7 +19918,7 @@ var Home = React.createClass({
 module.exports = Home;
 
 
-},{"react":156}]},{},[157])
+},{"react":156}]},{},[158])
 
 
 //# sourceMappingURL=maps/bundle.js.map
