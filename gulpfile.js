@@ -6,7 +6,7 @@
 //
 //  Available tasks:
 //  'gulp'
-//  'gulp help'
+//  'gulp list'
 //  'gulp lint:js'
 //  'gulp bundle:js'
 //  'gulp watch:js'
