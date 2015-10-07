@@ -1,20 +1,112 @@
+//  *************************************
+//
+//  Gulpfile
+//
+//  *************************************
+//
+//  Available tasks:
+//  'gulp'
+//  'gulp help'
+//  'gulp lint:js'
+//  'gulp bundle:js'
+//  'gulp watch:js'
+//  'gulp serve'
+//
+//  *************************************
+
+
+
+//  -------------------------------------
+//  Modules
+//  -------------------------------------
+//
+//  gulp                    :  The streaming build system
+//  gulp-load-plugins       :  Automatically load Gulp plugins
+//  gulp-cached             :  A simple in-memory file cache for gulp
+//  gulp-eslint             :  The pluggable linting utility for JavaScript and JSX
+//  gulp-jscs               :  JS code style linter
+//  gulp-jscs-stylish       :  A reporter for the JSCS
+//  gulp-plumber            :  Prevent pipe breaking caused by errors from gulp plugins
+//  gulp-sourcemaps         :  Source map support for Gulp.js
+//  gulp-task-listing       :  Task listing for your gulpfile
+//  gulp-using              :  Lists all files used
+//  gulp-util               :  Utility functions for gulp plugins
+//  react                   :  A JavaScript library for building user interfaces
+//  reactify                :  Browserify transform for JSX
+//  vinyl-buffer            :  Convert streaming vinyl files to use buffers
+//  vinyl-source-stream     :  Use conventional text streams at the start
+//  babel-eslint            :  Lint ALL valid Babel code with ESlint
+//  babelify                :  Babel browserify transform
+//  browser-sync            :  Live CSS Reload & Browser Syncing
+//  browserify              :  Browser-side require() the node way
+//  eslint-config-airbnb    :  Airbnb's ESLint config, following our styleguide
+//  eslint-plugin-react     :  React specific linting rules for ESLint
+//
+// -------------------------------------
+
+
+
+//  -------------------------------------
+//  Require gulp module
+//  -------------------------------------
+//
 //  gulp core modules
 var gulp = require('gulp');
-var config = require('./gulp_config');
+var config = require('./gulp/gulp_config');
 var $ = require('gulp-load-plugins')({lazy: true});
-
-// browserify related modules
+//
+//  browserify related modules
 var browserify = require('browserify');
 var babelify = require('babelify');
 var reactify = require('reactify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-
+//
 //  browser-sync module
 var browserSync = require('browser-sync').create();
+//
+//  -------------------------------------
 
-// sctipt task
-gulp.task('scriptLint', function(){
+
+
+//  -------------------------------------
+//  Utility function
+//  -------------------------------------
+//
+function log(msg) {
+	if (typeof(msg) === 'object') {
+		for (var item in msg) {
+			if (msg.hasOwnProperty(item)) {
+				$.util.log($.util.colors.bgYellow.white(msg[item]));
+			}
+		}
+	}
+	else {
+		$.util.log($.util.colors.underline.bold.bgYellow(msg));
+	}
+}
+//
+//  -------------------------------------
+
+
+//  -------------------------------------
+//  Task: list
+//  -------------------------------------
+//
+gulp.task('list', function() {
+  log('list all tasks registered');
+  $.taskListing();
+});
+//
+//  -------------------------------------
+
+
+
+//  -------------------------------------
+//  Task: lint:js
+//  -------------------------------------
+//
+gulp.task('lint:js', function(){
   log('ESlint and JSCS examination task');
   return gulp
     .src(config.src.js)
@@ -25,12 +117,20 @@ gulp.task('scriptLint', function(){
     .pipe($.jscs())
     .pipe($.jscsStylish())
     .pipe($.using({
-      prefix: 'scriptLint',
+      prefix: 'lint:js',
       color: 'yellow'
     }));
 });
+//
+//  -------------------------------------
 
-gulp.task('scriptsBundle',['scriptLint'] ,function(){
+
+
+//  -------------------------------------
+//  Task: bundle:js
+//  -------------------------------------
+//
+gulp.task('bundle:js',['lint:js'] ,function(){
   log('browserify js bundling task');
   browserify({
         entries: [config.src.collectionJs],
@@ -45,17 +145,32 @@ gulp.task('scriptsBundle',['scriptLint'] ,function(){
     .pipe($.sourcemaps.init({loadMaps: true}))
     .pipe($.sourcemaps.write('./maps'))
     .pipe($.using({
-      prefix: 'scriptsBundle',
+      prefix: 'bundle:js',
       color: 'yellow'
     }))
     .pipe(gulp.dest(config.build.js))
     .pipe(browserSync.stream());
 });
+//
+//  -------------------------------------
 
-gulp.task('js-watch', ['scriptsBundle'], browserSync.reload);
 
-//  browser sync task
-gulp.task('serve',['scriptsBundle'] ,function() {
+
+//  -------------------------------------
+//  Task: watch:js
+//  -------------------------------------
+//
+gulp.task('watch:js', ['bundle:js'], browserSync.reload);
+//
+//  -------------------------------------
+
+
+
+//  -------------------------------------
+//  Task: serve
+//  -------------------------------------
+//
+gulp.task('serve',['bundle:js'] ,function() {
 
     log('browser-sync starts');
 
@@ -65,21 +180,16 @@ gulp.task('serve',['scriptsBundle'] ,function() {
         }
     });
 
-    gulp.watch(config.src.js, ['js-watch']);
+    gulp.watch(config.src.js, ['watch:js']);
 });
+//  -------------------------------------
 
-gulp.task('default', ['serve']);
 
-///////////////////////////////
-function log(msg) {
-	if (typeof(msg) === 'object') {
-		for (var item in msg) {
-			if (msg.hasOwnProperty(item)) {
-				$.util.log($.util.colors.bgYellow.white(msg[item]));
-			}
-		}
-	}
-	else {
-		$.util.log($.util.colors.underline.bold.bgYellow(msg));
-	}
-}
+
+//  -------------------------------------
+//  Task: default
+//  -------------------------------------
+//
+gulp.task('default', ['list', 'serve']);
+//
+//  -------------------------------------
