@@ -1,0 +1,1 @@
+{"version":3,"sources":["application.sass"],"names":[],"mappings":"AAAA;EACE,wBAAwB,EADpB;EAEJ;IACE,eAAe,EADb","file":"application.css","sourcesContent":["body\n  background-color: white\n  h1\n    color: skyblue\n"],"sourceRoot":"/source/"}

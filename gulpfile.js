@@ -21,9 +21,11 @@
 //  -------------------------------------
 //
 //  gulp                    :  The streaming build system
+//  gulp-autoprefixer				:  Prefix CSS with Autoprefixer
 //  gulp-load-plugins       :  Automatically load Gulp plugins
 //  gulp-cached             :  A simple in-memory file cache for gulp
 //  gulp-eslint             :  The pluggable linting utility for JavaScript and JSX
+//  gulp-jade								:  Compile Jade templates
 //  gulp-jscs               :  JS code style linter
 //  gulp-jscs-stylish       :  A reporter for the JSCS
 //  gulp-plumber            :  Prevent pipe breaking caused by errors from gulp plugins
@@ -31,6 +33,7 @@
 //  gulp-task-listing       :  Task listing for your gulpfile
 //  gulp-using              :  Lists all files used
 //  gulp-util               :  Utility functions for gulp plugins
+//  gulp-sass								:  Something like this will compile your Sass files
 //  react                   :  A JavaScript library for building user interfaces
 //  reactify                :  Browserify transform for JSX
 //  vinyl-buffer            :  Convert streaming vinyl files to use buffers
@@ -52,7 +55,7 @@
 //
 //  gulp core modules
 var gulp = require('gulp');
-var config = require('./gulp/gulp_config');
+var config = require('./gulp_config');
 var $ = require('gulp-load-plugins')({lazy: true});
 //
 //  browserify related modules
@@ -97,6 +100,16 @@ gulp.task('list', function() {
   log('list all tasks registered');
   $.taskListing();
 });
+//
+//  -------------------------------------
+
+
+
+//  -------------------------------------
+//  Task: build
+//  -------------------------------------
+//
+gulp.task('build', ['bundle:js', 'compile:css', 'compile:html']);
 //
 //  -------------------------------------
 
@@ -167,10 +180,81 @@ gulp.task('watch:js', ['bundle:js'], browserSync.reload);
 
 
 //  -------------------------------------
+//  Task: compile:css
+//  -------------------------------------
+//
+gulp.task('compile:css', function () {
+    log('Compiling Sass --> CSS');
+    return gulp
+        .src(config.src.sass)
+        .pipe($.plumber())
+        .pipe($.sourcemaps.init())
+				.pipe($.using({
+		      prefix: 'compile:css',
+		      color: 'yellow'
+		    }))
+        .pipe($.sass({
+          indentedSyntax: true
+        }))
+        .pipe($.autoprefixer({browsers: ['last 2 version', '> 5%']}))
+        .pipe($.sourcemaps.write('./maps'))
+        .pipe(gulp.dest(config.build.css))
+        .pipe(browserSync.stream())
+});
+//
+//  -------------------------------------
+
+
+
+//  -------------------------------------
+//  Task: watch:css
+//  -------------------------------------
+//
+gulp.task('watch:css', ['compile:css'], browserSync.reload);
+//
+//  -------------------------------------
+
+
+
+//  -------------------------------------
+//  Task: compile:html
+//  -------------------------------------
+//
+gulp.task('compile:html', function () {
+  log('Compiling Jade --> HTML');
+  return gulp
+    .src(config.src.template)
+    .pipe($.plumber())
+		.pipe($.using({
+			prefix: 'compile:html',
+			color: 'yellow'
+		}))
+    .pipe($.jade({
+      pretty: true
+    }))
+    .pipe(gulp.dest(config.build.html))
+    .pipe(browserSync.stream())
+});
+//
+//  -------------------------------------
+
+
+
+//  -------------------------------------
+//  Task: watch:html
+//  -------------------------------------
+//
+gulp.task('watch:html', ['compile:html'], browserSync.reload);
+//
+//  -------------------------------------
+
+
+
+//  -------------------------------------
 //  Task: serve
 //  -------------------------------------
 //
-gulp.task('serve',['bundle:js'] ,function() {
+gulp.task('serve',['build'] ,function() {
 
     log('browser-sync starts');
 
@@ -181,6 +265,8 @@ gulp.task('serve',['bundle:js'] ,function() {
     });
 
     gulp.watch(config.src.js, ['watch:js']);
+		gulp.watch(config.src.sass, ['watch:css']);
+		gulp.watch(config.src.template, ['watch:html']);
 });
 //  -------------------------------------
 

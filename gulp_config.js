@@ -10,7 +10,7 @@ var gulpConfig = function() {
     src: {
         // customed files
         js: src + 'js/**/*.js',
-        template: src + 'jade/page/**/*.jade',
+        template: src + '**/*.jade',
         sass: src + 'sass/application.sass',
 
         // bundle js file
