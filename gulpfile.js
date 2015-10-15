@@ -187,6 +187,7 @@ gulp.task('compile:css', function () {
     log('Compiling Sass --> CSS');
     return gulp
         .src(config.src.sass)
+				.pipe($.cached('compile:css'))
         .pipe($.plumber())
         .pipe($.sourcemaps.init())
 				.pipe($.using({
@@ -224,6 +225,7 @@ gulp.task('compile:html', function () {
   log('Compiling Jade --> HTML');
   return gulp
     .src(config.src.template)
+		.pipe($.cached('compile:html'))
     .pipe($.plumber())
 		.pipe($.using({
 			prefix: 'compile:html',

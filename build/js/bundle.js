@@ -19872,7 +19872,7 @@ module.exports = require('./lib/React');
 //  correct example
 "use strict";
 
-var uiui = 3;
+var uiui = 333;
 
 var numbers = [1, 2, 3, 4, 5];
 var timesTwo = numbers.map(function (number) {
@@ -19910,7 +19910,7 @@ var Home = React.createClass({
     return React.createElement(
       'h1',
       null,
-      'Hello world!'
+      'Hello world!!!!'
     );
   }
 });
