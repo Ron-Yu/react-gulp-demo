@@ -29,6 +29,7 @@
 //  gulp-jscs               :  JS code style linter
 //  gulp-jscs-stylish       :  A reporter for the JSCS
 //  gulp-plumber            :  Prevent pipe breaking caused by errors from gulp plugins
+//  gulp-rucksack						:  A little bag of CSS superpowers
 //  gulp-sourcemaps         :  Source map support for Gulp.js
 //  gulp-task-listing       :  Task listing for your gulpfile
 //  gulp-using              :  Lists all files used
@@ -70,6 +71,7 @@ var browserSync = require('browser-sync').create();
 //
 //  -------------------------------------
 
+var autoprefixer = require('autoprefixer');
 
 
 //  -------------------------------------
@@ -197,7 +199,9 @@ gulp.task('compile:css', function () {
         .pipe($.sass({
           indentedSyntax: true
         }))
-        .pipe($.autoprefixer({browsers: ['last 2 version', '> 5%']}))
+				.pipe($.rucksack({
+					autoprefixer: true
+				}))
         .pipe($.sourcemaps.write('./maps'))
         .pipe(gulp.dest(config.build.css))
         .pipe(browserSync.stream())
