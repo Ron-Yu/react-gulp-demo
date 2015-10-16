@@ -13,3 +13,7 @@ It's the demo to start react js application.
 2. npm install gulp -g
 3. npm install
 4. gulp
+
+## Reference
+- eslint and jscs are from airbnb(https://github.com/airbnb/javascript)
+- make css magic rucksack(https://simplaio.github.io/rucksack/)
