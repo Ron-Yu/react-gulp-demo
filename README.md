@@ -15,5 +15,5 @@ It's the demo to start react js application.
 4. gulp
 
 ## Reference
-- eslint and jscs are from airbnb(https://github.com/airbnb/javascript)
-- make css magic rucksack(https://simplaio.github.io/rucksack/)
+- eslint and jscs are from [airbnb](https://github.com/airbnb/javascript)
+- make css magic [rucksack](https://simplaio.github.io/rucksack/)
