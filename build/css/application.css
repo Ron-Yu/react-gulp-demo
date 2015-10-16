@@ -1,11 +1,11 @@
 body {
   -webkit-transition: all 1s linear;
           transition: all 1s linear;
-  font-size: calc(12px + 9 * ( (100vw - 420px) / 860));
+  font-size: calc(12px + 23 * ( (100vw - 420px) / 860));
   background-color: white; }
 @media screen and (min-width: 1280px) {
   body {
-    font-size: 21px; } }
+    font-size: 35px; } }
 @media screen and (max-width: 420px) {
   body {
     font-size: 12px; } }
