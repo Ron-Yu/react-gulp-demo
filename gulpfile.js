@@ -86,7 +86,7 @@ function log(msg) {
 		}
 	}
 	else {
-		$.util.log($.util.colors.underline.bold.bgYellow(msg));
+		$.util.log($.util.colors.underline.bold.bgBlue(msg));
 	}
 }
 //
