@@ -1,8 +1,24 @@
-const React = require('react');
-const Home = require('./components/homePage');
+(function() {
+  const React = require('react');
+  const ReactDOM = require('react-dom');
+  const CommentList = require('./components/commentList');
+  const CommentForm = require('./components/commentForm');
 
-const basic = require('./basic');
+  var CommentBox = React.createClass({
+    render: function() {
+      return (
+        <div className="commentBox">
+          <h1>Comments</h1>
+          <CommentList />
+          <CommentForm />
+        </div>
+      );
+    }
+  });
 
-React.render(<Home />, document.getElementById('example'));
+  ReactDOM.render(
+    <CommentBox />,
+    document.getElementById('example')
+  );
 
-console.log(basic.uiui);
+})();

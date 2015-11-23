@@ -4,6 +4,10 @@
     "no-unused-vars": [0, {"vars": "all", "args": "after-used"}],
     "jsx-quotes": 0,
     "func-names": 0,
-    "no-console": 0
+    "no-console": 0,
+    "id-length": [2, {"exceptions": ["$"]}]
+  },
+  "env": {
+    "jquery": true
   }
 }
