@@ -5,7 +5,11 @@
     "jsx-quotes": 0,
     "func-names": 0,
     "no-console": 0,
-    "id-length": [2, {"exceptions": ["$"]}]
+    "id-length": [2, {"exceptions": ["$"]}],
+    "comma-dangle": [2, "never"],
+    "no-trailing-spaces": [2, { "skipBlankLines": true }],
+    "react/prop-types": 0,
+    "id-length": 0
   },
   "env": {
     "jquery": true

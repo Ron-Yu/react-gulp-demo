@@ -4,6 +4,7 @@
     "disallowTrailingWhitespace": "ignoreEmptyLines",
     "requireCapitalizedConstructors": {
       "allExcept": ["scrollReveal"]
-    }
+    },
+    "requireTrailingComma": false
 
 }
