@@ -148,7 +148,7 @@ gulp.task('bundle:js',['lint:js'] ,function(){
   log('browserify js bundling task');
   browserify({
         entries: [config.src.collectionJs],
-        transform: [babelify, reactify],
+        transform: [babelify],
         extension: ['jsx', 'js'],
         debug: true
     })

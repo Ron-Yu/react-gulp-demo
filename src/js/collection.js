@@ -1,8 +1,9 @@
 const React = require('react');
+const ReactDOM = require('react-dom');
 const Home = require('./components/homePage');
 
 const basic = require('./basic');
 
-React.render(<Home />, document.getElementById('example'));
+ReactDOM.render(<Home />, document.getElementById('example'));
 
 console.log(basic.uiui);
